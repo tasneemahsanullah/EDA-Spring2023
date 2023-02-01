@@ -1,6 +1,6 @@
 ---
-title: "Assignment 1: Introduction"
-author: "Student Name"
+title: "TasneemAhsanullah_A01_Introduction.Rmd"
+author: "Tasneem Ahsanullah"
 output: pdf_document
 geometry: margin=2.54cm
 ---
@@ -40,14 +40,17 @@ Enter answers to the questions just below the >Answer: prompt.
 1. What are your previous experiences with data analytics, R, and Git? Include both formal and informal training.
 
 > Answer: 
+I took a Biostatistics class in undergrad where we used R in lab. I also did some projects (studying insect microbiomes) in undergrad where i analyzed my data in R. 
 
 2. Are there any components of the course about which you feel confident?
 
 > Answer: 
+I don't feel confident.
 
 3. Are there any components of the course about which you feel apprehensive?
 
 > Answer: 
+I feel apprehensive about navigating the different componenets of R and GitHub. 
 
 
 ## 3) GitHub
@@ -55,6 +58,8 @@ Enter answers to the questions just below the >Answer: prompt.
 Provide a link below to your forked course repository in GitHub. Make sure you have pulled all recent changes from the course repository and that you have updated your course README file, committed those changes, and pushed them to your GitHub account. 
 
 > Answer: 
+https://github.com/tasneemahsanullah/EDA-Spring2023.git
+
 
 ## 4) Knitting
 When you have completed this document, click the `knit` button.This should produce a PDF copy of your markdown document. Submit this PDF to Sakai. 

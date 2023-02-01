@@ -44,11 +44,13 @@ I took a Biostatistics class in undergrad where we used R in lab. I also did som
 
 2. Are there any components of the course about which you feel confident?
 
-> Answer: I don't feel confident.
+> Answer: 
+I don't feel confident.
 
 3. Are there any components of the course about which you feel apprehensive?
 
-> Answer: I feel apprehensive about navigating the different componenets of R and GitHub. 
+> Answer: 
+I feel apprehensive about navigating the different componenets of R and GitHub. 
 
 
 ## 3) GitHub
@@ -56,6 +58,8 @@ I took a Biostatistics class in undergrad where we used R in lab. I also did som
 Provide a link below to your forked course repository in GitHub. Make sure you have pulled all recent changes from the course repository and that you have updated your course README file, committed those changes, and pushed them to your GitHub account. 
 
 > Answer: 
+https://github.com/tasneemahsanullah/EDA-Spring2023.git
+
 
 ## 4) Knitting
 When you have completed this document, click the `knit` button.This should produce a PDF copy of your markdown document. Submit this PDF to Sakai. 
