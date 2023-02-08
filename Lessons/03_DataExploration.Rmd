@@ -61,21 +61,21 @@ If a package is already installed, you will need to load it every session. You c
 
 ```{r Installing and loading packages}
 # We will use the packages dplyr and ggplot2 regularly. 
-#install.packages("dplyr") 
-#install.packages("ggplot2")
+install.packages("dplyr") 
+install.packages("ggplot2")
 # comment out install commands, use only when needed and re-comment
 
 library(dplyr)
 library(ggplot2)
 
 # Some packages are umbrellas under which other packages are loaded
-#install.packages("tidyverse")
+install.packages("tidyverse")
 library(tidyverse)
 ```
 
 Question: What happens in the console when you load a package?
 
-> Answer: 
+> Answer: It shows what's in the package
 
 ### Import your datasets
 
@@ -100,10 +100,10 @@ Commons functions to import datasets and store as data frames are *read.table()*
 USGS.flow.data <- read.csv("./Data/Raw/USGS_Site02085000_Flow_Raw.csv",stringsAsFactors = TRUE)   
 
 # What happens if we don't assign a name to our imported dataset?
-#read.csv("./Data/Raw/USGS_Site02085000_Flow_Raw.csv",stringsAsFactors = TRUE)
+read.csv("./Data/Raw/USGS_Site02085000_Flow_Raw.csv",stringsAsFactors = TRUE)
 
 # Another option is to choose with your browser
-# read.csv(file.choose(),stringsAsFactors = TRUE)
+ read.csv(file.choose(),stringsAsFactors = TRUE)
 
 # To import .txt files, use read.table rather than read.csv
 #read.table()
@@ -149,7 +149,7 @@ summary(USGS.flow.data)  #could point to column only with $
 ```
 
 What happened to blank cells in the spreadsheet when they were imported into R?
-> Answer: 
+> Answer: they were filled with data
 
 ## Adjusting Datasets
 
@@ -163,7 +163,7 @@ summary(USGS.flow.data$gage.height.mean)
 ```
 Question: What types of research questions might make it favorable to remove NAs from a dataset, and what types of research questions might make it favorable to retain NAs in the dataset?
 
-> Answer: 
+> Answer: time series
 
 ```{r Removing NAs}
 USGS.flow.data.complete <- na.omit(USGS.flow.data)
