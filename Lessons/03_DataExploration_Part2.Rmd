@@ -61,6 +61,8 @@ Visualize count data for categorical variables.
 ggplot(USGS.flow.data, aes(x = discharge.mean.approval)) +
   geom_bar()
 
+ggplot(no.omit(USGS.flow.data, aes(x = discharge.mean.approval)) +
+  geom_bar()
 
 
 ```
@@ -74,11 +76,11 @@ Visualize distributions of values for continuous numerical variables. What is ha
 ggplot(USGS.flow.data) +
   geom_histogram(aes(x = discharge.mean))
 
-#
+#aesthetics
 ggplot(USGS.flow.data) +
   geom_histogram(aes(x = discharge.mean), binwidth = 10)
 
-#
+#bin width
 ggplot(USGS.flow.data) +
   geom_histogram(aes(x = discharge.mean), bins = 20)
 
