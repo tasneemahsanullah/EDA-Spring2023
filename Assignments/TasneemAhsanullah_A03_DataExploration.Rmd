@@ -74,7 +74,7 @@ dim(Neonics) #dimensions of neonics dataset
 6.  Using the `summary` function on the "Effect" column, determine the most common effects that are studied. Why might these effects specifically be of interest?
 
 ```{r, summary of Neonics Effects}
-summary(Neonics$Effect)
+summary(Neonics$Effect) #summary of the effects of neonicotinoids on insects
 ```
 
 > Answer: These effects are of interest because they show specifically how the neonicotinoids are affecting the insects. Particularly mortality and population are highest so it shows that the neonicotinoids have a high mortality rate. 
@@ -83,7 +83,7 @@ summary(Neonics$Effect)
 7.  Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.[TIP: The `sort()` command can sort the output of the summary command...]
 
 ```{r, summary of species studied}
-sort(summary(Neonics$Species.Common.Name))
+sort(summary(Neonics$Species.Common.Name)) #summary of the most studied species in the dataset sorted by number of each species
 ```
 
 > Answer: The 6 most commonly studied insects in the dataset are honey bees, parasitic wasps, buff tailed bumblebees, carniolan honey bees, bumble bees and italian honeybees. The species are all hymenopterans and pollinators so they are important because they pollinate crops which allows the crops to reproduce. 
@@ -91,7 +91,7 @@ sort(summary(Neonics$Species.Common.Name))
 8.  Concentrations are always a numeric value. What is the class of `Conc.1..Author.` column in the dataset, and why is it not numeric?
 
 ```{r, class of author column}
-class(Neonics$Conc.1..Author.)
+class(Neonics$Conc.1..Author.) #determining the class of Conc.1..Author (concentration)
 ```
 
 > Answer: The Conc.1..Author column is a factor. It is not numeric because earlier we set all strings as factors so it is reading the column as a factor. 
@@ -100,63 +100,82 @@ class(Neonics$Conc.1..Author.)
 
 9.  Using `geom_freqpoly`, generate a plot of the number of studies conducted by publication year.
 
-```{r}
-ggplot(Neonics,aes(Publication.Year))
-geom_freqpoly()
+```{r, plot of number of studies by publication year}
+ggplot(Neonics) +
+  geom_freqpoly(aes(x = Publication.Year), bins = 50) #plot of the number of studies conducted by publication year in Neonics 
 ```
 
 10. Reproduce the same graph but now add a color aesthetic so that different Test.Location are displayed as different colors.
 
-```{r}
-
+```{r, Test Location}
+ggplot(Neonics) +
+  geom_freqpoly(aes(x = Publication.Year, color = Test.Location), bins = 50) +
+  theme(legend.position = "top") #plot of the number of studies conducted by publication year for each Test location.
 ```
 
 Interpret this graph. What are the most common test locations, and do they differ over time?
 
-> Answer:
+> Answer: The most common test locations are Lab and Field Natural. Lab starts low in the 1980s-2000 and then increases in the 2000s and spikes around 2015. Field Nautural follows a similar pattern but spikes at 2010. 
 
 11. Create a bar graph of Endpoint counts. What are the two most common end points, and how are they defined? Consult the ECOTOX_CodeAppendix for more information. 
 
 [**TIP**: Add `theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))` to the end of your plot command to rotate and align the X-axis labels...]
 
-```{r}
-
+```{r, Endpoints}
+ggplot(Neonics, aes(x = Endpoint))+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  geom_bar() #plot of the endpoints and their frequencies
 ```
 
-> Answer:
+> Answer: The two most common endpoints are NOEL ("No-observable-effect-level: highest dose (concentration) producing effects not significantly different from responses of controls according to author's reported statistical test") and LOEL ("Lowest-observable-effect-level: lowest dose (concentration) producing effects that were significantly different").
 
 ## Explore your data (Litter)
 
 12. Determine the class of collectDate. Is it a date? If not, change to a date and confirm the new class of the variable. Using the `unique` function, determine which dates litter was sampled in August 2018.
 
-```{r}
+```{r, Formatting date}
+class(Litter$collectDate) #checking class of collectDate
 
+collection.date <- ymd(Litter$collectDate) #formating collectDate to be a date instead of factor
+class(Litter$collectDate) #checking class of collectDate
+
+unique(Litter$collectDate) #finding all the dates litter was sampled in August 2018
 ```
 
 13. Using the `unique` function, determine how many plots were sampled at Niwot Ridge. How is the information obtained from `unique` different from that obtained from `summary`?
 
-```{r}
-
+```{r, Niwot Ridge}
+unique(Litter$namedLocation) #retrieving the number of plots that were sampled from Niwot Ridge 
 ```
 
-> Answer:
+> Answer: 12 plots. This information is different from summary because it is just showing the number of plots at Niwot Ridge not all of the different locations. 
 
 14. Create a bar graph of functionalGroup counts. This shows you what type of litter is collected at the Niwot Ridge sites. Notice that litter types are fairly equally distributed across the Niwot Ridge sites.
 
-```{r}
-
+```{r, Litter Type at Niwot Ridge sites}
+ggplot(Litter, aes(x = functionalGroup))+
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+  geom_bar() #bar graph of functionalGroup counts showing what type of litter is collected at the Niwot Ridge sites
 ```
 
 15. Using `geom_boxplot` and `geom_violin`, create a boxplot and a violin plot of dryMass by functionalGroup.
 
-```{r}
+```{r, Dry mass boxplot and violin plot}
+ggplot(Litter) +
+  geom_boxplot(aes(x = functionalGroup, y = dryMass))
+#boxplot of dryMass by functionalGroup
 
+ggplot(Litter) +
+  geom_violin(aes(x = functionalGroup, y = dryMass),
+              draw_quantiles = c(0.25, 0.5, 0.75))
+#violin plot of dryMass by functionalGroup
+```
 ```
 
 Why is the boxplot a more effective visualization option than the violin plot in this case?
 
-> Answer:
+> Answer: The boxplot was a better visualization option than the violin plot because the violin plot shows density as well and the density of all the litter types was very similar across sites. 
 
 What type(s) of litter tend to have the highest biomass at these sites?
 
-> Answer:
+> Answer: Needles and Twigs/branches
