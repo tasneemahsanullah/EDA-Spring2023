@@ -29,7 +29,6 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Ex
 ---
 ```{r setup, include=FALSE}
 
-
 #install.packages('formatR')
 
 knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
@@ -39,12 +38,12 @@ knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
 
 1.  Check your working directory, load necessary packages (tidyverse, lubridate), and upload two datasets: the ECOTOX neonicotinoid dataset (ECOTOX_Neonicotinoids_Insects_raw.csv) and the Niwot Ridge NEON dataset for litter and woody debris (NEON_NIWO_Litter_massdata_2018-08_raw.csv). Name these datasets "Neonics" and "Litter", respectively. Be sure to include the subcommand to read strings in as factors.
 
-```{r,  message = FALSE}
-Neonics <- read.csv("../Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv",stringsAsFactors = TRUE)     #assigning the ECOTOX dataset to the variable "Neonics"
-nf <- as.factor(Neonics) #read nenoics as a factor
+```{r, importing dataset, message = FALSE}
+library(tidyverse) #loading tidyverse
+library(lubridate) #loading lubridate
+Neonics <- read.csv("./Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv",stringsAsFactors = TRUE)     #assigning the ECOTOX dataset to the variable "Neonics" and reading strings as factors
 
-Litter <- NEON_NIWO_Litter_massdata_2018_08_raw #assigning the NEON_NIWO dataset to the variable "Litter"
-lf <- as.factor(Litter) #read lf as a factor
+Litter <- read.csv("./Data/Raw/NEON_NIWO_Litter_massdata_2018-08_raw.csv",stringsAsFactors = TRUE)   #assigning the NEON_NIWO dataset to the variable "Litter" and reading strings as factors
 ```
 
 ## Learn about your system
@@ -55,54 +54,55 @@ lf <- as.factor(Litter) #read lf as a factor
 
 3.  The Niwot Ridge litter and woody debris dataset was collected from the National Ecological Observatory Network, which collectively includes 81 aquatic and terrestrial sites across 20 ecoclimatic domains. 32 of these sites sample forest litter and woody debris, and we will focus on the Niwot Ridge long-term ecological research (LTER) station in Colorado. Why might we be interested in studying litter and woody debris that falls to the ground in forests? Feel free to do a brief internet search if you feel you need more background information.
 
-> Answer:
+> Answer: It is important to study leaf litter and woody debris because they are important indicators of forest health. Many organisms live in leaf litter or use leaf litter so it it has a vital function in the forest. Leaf litter also provides nutrients for soil and makes it viable to grow plants so it can indicate the quality of a forests soil. 
 
 4.  How is litter and woody debris sampled as part of the NEON network? Read the NEON_Litterfall_UserGuide.pdf document to learn more. List three pieces of salient information about the sampling methods here:
 
 > Answer: 
- 1.
- 2.
- 3. 
-
+ 1. Tower plots were used to sample litter and woody debris.
+ 2. The tower plots were selected "within the 90% flux footprint of the primary and secondary airsheds"
+ 3. Litterr was sampled in 20 40m x 40m plots for sites with forested tower airsheds.
+ 
 ## Obtain basic summaries of your data (Neonics)
 
 5.  What are the dimensions of the dataset?
 
-```{r}
+```{r, dimensions of dataset}
 dim(Neonics) #dimensions of neonics dataset
 ```
 
 6.  Using the `summary` function on the "Effect" column, determine the most common effects that are studied. Why might these effects specifically be of interest?
 
-```{r}
+```{r, summary of Neonics Effects}
 summary(Neonics$Effect)
 ```
 
-> Answer:
+> Answer: These effects are of interest because they show specifically how the neonicotinoids are affecting the insects. Particularly mortality and population are highest so it shows that the neonicotinoids have a high mortality rate. 
 
 
 7.  Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.[TIP: The `sort()` command can sort the output of the summary command...]
 
-```{r}
-
+```{r, summary of species studied}
+sort(summary(Neonics$Species.Common.Name))
 ```
 
-> Answer:
+> Answer: The 6 most commonly studied insects in the dataset are honey bees, parasitic wasps, buff tailed bumblebees, carniolan honey bees, bumble bees and italian honeybees. The species are all hymenopterans and pollinators so they are important because they pollinate crops which allows the crops to reproduce. 
 
 8.  Concentrations are always a numeric value. What is the class of `Conc.1..Author.` column in the dataset, and why is it not numeric?
 
-```{r}
-
+```{r, class of author column}
+class(Neonics$Conc.1..Author.)
 ```
 
-> Answer:
+> Answer: The Conc.1..Author column is a factor. It is not numeric because earlier we set all strings as factors so it is reading the column as a factor. 
 
 ## Explore your data graphically (Neonics)
 
 9.  Using `geom_freqpoly`, generate a plot of the number of studies conducted by publication year.
 
 ```{r}
-
+ggplot(Neonics,aes(Publication.Year))
+geom_freqpoly()
 ```
 
 10. Reproduce the same graph but now add a color aesthetic so that different Test.Location are displayed as different colors.
