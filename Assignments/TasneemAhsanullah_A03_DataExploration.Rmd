@@ -1,10 +1,12 @@
 ---
-title: "Assignment 3: Data Exploration"
+title: 'Assignment 3: Data Exploration'
 author: "Tasneem Ahsanullah"
 date: "Spring 2023"
-output: pdf_document
+output:
+  pdf_document: default
+  word_document: default
 geometry: margin=2.54cm
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -27,23 +29,24 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Ex
 **TIP**: If your code fails to knit, check that no `install.packages()` or `View()` commands exist in your code. 
 
 ---
-```{r setup, include=FALSE}
 
-#install.packages('formatR')
 
-knitr::opts_chunk$set(tidy.opts=list(width.cutoff=80), tidy=TRUE)
-
-```
 ## Set up your R session
 
 1.  Check your working directory, load necessary packages (tidyverse, lubridate), and upload two datasets: the ECOTOX neonicotinoid dataset (ECOTOX_Neonicotinoids_Insects_raw.csv) and the Niwot Ridge NEON dataset for litter and woody debris (NEON_NIWO_Litter_massdata_2018-08_raw.csv). Name these datasets "Neonics" and "Litter", respectively. Be sure to include the subcommand to read strings in as factors.
 
-```{r, importing dataset, message = FALSE}
-library(tidyverse) #loading tidyverse
-library(lubridate) #loading lubridate
-Neonics <- read.csv("./Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv",stringsAsFactors = TRUE)     #assigning the ECOTOX dataset to the variable "Neonics" and reading strings as factors
 
-Litter <- read.csv("./Data/Raw/NEON_NIWO_Litter_massdata_2018-08_raw.csv",stringsAsFactors = TRUE)   #assigning the NEON_NIWO dataset to the variable "Litter" and reading strings as factors
+
+```{r importing dataset, message = FALSE}
+library(tidyverse) #load tidyverse package
+library(lubridate) #load lubridate package
+Neonics <- read.csv("./Data/Raw/ECOTOX_Neonicotinoids_Insects_raw.csv",
+  stringsAsFactors = TRUE)    
+#assigning the ECOTOX dataset to the variable "Neonics" and reading strings as factors
+
+Litter <- read.csv("./Data/Raw/NEON_NIWO_Litter_massdata_2018-08_raw.csv",
+    stringsAsFactors = TRUE)   
+#assigning the NEON_NIWO dataset to the variable "Litter" and reading strings as factors
 ```
 
 ## Learn about your system
@@ -67,13 +70,13 @@ Litter <- read.csv("./Data/Raw/NEON_NIWO_Litter_massdata_2018-08_raw.csv",string
 
 5.  What are the dimensions of the dataset?
 
-```{r, dimensions of dataset}
+```{r dimensions of dataset}
 dim(Neonics) #dimensions of neonics dataset
 ```
 
 6.  Using the `summary` function on the "Effect" column, determine the most common effects that are studied. Why might these effects specifically be of interest?
 
-```{r, summary of Neonics Effects}
+```{r summary of Neonics Effects}
 summary(Neonics$Effect) #summary of the effects of neonicotinoids on insects
 ```
 
@@ -82,16 +85,18 @@ summary(Neonics$Effect) #summary of the effects of neonicotinoids on insects
 
 7.  Using the `summary` function, determine the six most commonly studied species in the dataset (common name). What do these species have in common, and why might they be of interest over other insects? Feel free to do a brief internet search for more information if needed.[TIP: The `sort()` command can sort the output of the summary command...]
 
-```{r, summary of species studied}
-sort(summary(Neonics$Species.Common.Name)) #summary of the most studied species in the dataset sorted by number of each species
+```{r summary of species studied}
+sort(summary(Neonics$Species.Common.Name)) 
+#summary of the most studied species in the dataset sorted by number of each species
 ```
 
 > Answer: The 6 most commonly studied insects in the dataset are honey bees, parasitic wasps, buff tailed bumblebees, carniolan honey bees, bumble bees and italian honeybees. The species are all hymenopterans and pollinators so they are important because they pollinate crops which allows the crops to reproduce. 
 
 8.  Concentrations are always a numeric value. What is the class of `Conc.1..Author.` column in the dataset, and why is it not numeric?
 
-```{r, class of author column}
-class(Neonics$Conc.1..Author.) #determining the class of Conc.1..Author (concentration)
+```{r class of author column}
+class(Neonics$Conc.1..Author.) 
+#determining the class of Conc.1..Author (concentration)
 ```
 
 > Answer: The Conc.1..Author column is a factor. It is not numeric because earlier we set all strings as factors so it is reading the column as a factor. 
@@ -100,17 +105,19 @@ class(Neonics$Conc.1..Author.) #determining the class of Conc.1..Author (concent
 
 9.  Using `geom_freqpoly`, generate a plot of the number of studies conducted by publication year.
 
-```{r, plot of number of studies by publication year}
+```{r plot of number of studies by publication year}
 ggplot(Neonics) +
-  geom_freqpoly(aes(x = Publication.Year), bins = 50) #plot of the number of studies conducted by publication year in Neonics 
+  geom_freqpoly(aes(x = Publication.Year), bins = 50) 
+#plot of the number of studies conducted by publication year in Neonics 
 ```
 
 10. Reproduce the same graph but now add a color aesthetic so that different Test.Location are displayed as different colors.
 
-```{r, Test Location}
+```{r Test Location}
 ggplot(Neonics) +
   geom_freqpoly(aes(x = Publication.Year, color = Test.Location), bins = 50) +
-  theme(legend.position = "top") #plot of the number of studies conducted by publication year for each Test location.
+  theme(legend.position = "top") 
+#plot of the number of studies conducted by publication year for each Test location.
 ```
 
 Interpret this graph. What are the most common test locations, and do they differ over time?
@@ -121,7 +128,7 @@ Interpret this graph. What are the most common test locations, and do they diffe
 
 [**TIP**: Add `theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))` to the end of your plot command to rotate and align the X-axis labels...]
 
-```{r, Endpoints}
+```{r Endpoints}
 ggplot(Neonics, aes(x = Endpoint))+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   geom_bar() #plot of the endpoints and their frequencies
@@ -133,7 +140,7 @@ ggplot(Neonics, aes(x = Endpoint))+
 
 12. Determine the class of collectDate. Is it a date? If not, change to a date and confirm the new class of the variable. Using the `unique` function, determine which dates litter was sampled in August 2018.
 
-```{r, Formatting date}
+```{r Formatting date}
 class(Litter$collectDate) #checking class of collectDate
 
 collection.date <- ymd(Litter$collectDate) #formating collectDate to be a date instead of factor
@@ -144,7 +151,7 @@ unique(Litter$collectDate) #finding all the dates litter was sampled in August 2
 
 13. Using the `unique` function, determine how many plots were sampled at Niwot Ridge. How is the information obtained from `unique` different from that obtained from `summary`?
 
-```{r, Niwot Ridge}
+```{r Niwot Ridge}
 unique(Litter$namedLocation) #retrieving the number of plots that were sampled from Niwot Ridge 
 ```
 
@@ -152,23 +159,25 @@ unique(Litter$namedLocation) #retrieving the number of plots that were sampled f
 
 14. Create a bar graph of functionalGroup counts. This shows you what type of litter is collected at the Niwot Ridge sites. Notice that litter types are fairly equally distributed across the Niwot Ridge sites.
 
-```{r, Litter Type at Niwot Ridge sites}
+```{r Litter Type at Niwot Ridge sites}
 ggplot(Litter, aes(x = functionalGroup))+
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
-  geom_bar() #bar graph of functionalGroup counts showing what type of litter is collected at the Niwot Ridge sites
+  geom_bar() 
+#bar graph of functionalGroup counts showing what type of litter is collected at the Niwot Ridge sites
 ```
 
 15. Using `geom_boxplot` and `geom_violin`, create a boxplot and a violin plot of dryMass by functionalGroup.
 
-```{r, Dry mass boxplot and violin plot}
+```{r Dry mass boxplot and violin plot}
+#boxplot of dryMass by functionalGroup
 ggplot(Litter) +
   geom_boxplot(aes(x = functionalGroup, y = dryMass))
-#boxplot of dryMass by functionalGroup
 
+#violin plot of dryMass by functionalGroup
 ggplot(Litter) +
   geom_violin(aes(x = functionalGroup, y = dryMass),
               draw_quantiles = c(0.25, 0.5, 0.75))
-#violin plot of dryMass by functionalGroup
+
 ```
 ```
 
