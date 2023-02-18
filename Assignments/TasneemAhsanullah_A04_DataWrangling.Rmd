@@ -1,9 +1,11 @@
 ---
 title: "Assignment 4: Data Wrangling"
-author: "Student Name"
+author: "Tasneem Ahsanullah"
 date: "Spring 2023"
 output: pdf_document
 geometry: margin=2.54cm
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -41,12 +43,36 @@ The completed exercise is due on Friday, Feb 20th @ 5:00pm.
 
 ```{r, message = FALSE}
 #1a 
+#loading tidyverse, lubridate and here packages to the session
+library(tidyverse)
+library(lubridate)
+library(here)
 
 #1b 
+#retrieving the working directory
+getwd()
 
 #1c 
+#reading in all four EPA Air datasets, assigning a name and setting string columns to
+#be read as factors
+Air_O3_2018 <- read.csv("./Data/Raw/EPAair_O3_NC2018_raw.csv",
+  stringsAsFactors = TRUE)
+
+Air_O3_2019 <- read.csv("./Data/Raw/EPAair_O3_NC2019_raw.csv",
+  stringsAsFactors = TRUE)
+
+Air_PM25_2018 <- read.csv("./Data/Raw/EPAair_PM25_NC2018_raw.csv",
+  stringsAsFactors = TRUE)
+
+Air_PM25_2019 <- read.csv("./Data/Raw/EPAair_PM25_NC2019_raw.csv",
+  stringsAsFactors = TRUE)
 
 #2 
+#using glimpse to get the dimensions, column names, and structure of each dataset 
+glimpse(Air_O3_2018)
+glimpse(Air_O3_2019)
+glimpse(Air_PM25_2018)
+glimpse(Air_PM25_2019)
 
 ```
 
