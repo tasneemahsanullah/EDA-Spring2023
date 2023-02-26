@@ -41,13 +41,16 @@ The expression function can be used when you want to add mathematical symbols an
 
 #Create a plot
 Plot_text <-
-ggplot(data=data.frame(x=0,y=0))+
+ggplot(data=data.frame(x=0,y=0))+ # if put aes here then sets it globally
   geom_point(aes(x=x,y=y)) +
   geom_text(
     x=0,
     y=0.025,
-    label=expression(paste("Mean is ", mu,",", R^{2},'=0.6'))
+    label=expression(paste("Mean is ", mu,",", R^{2},'=0.6')) #paste combine strings
     )
+
+#R^{2} is MathJax
+#paste 0 has no space
 
 #Print the plot
 print(Plot_text)
@@ -93,14 +96,28 @@ Say we want to plot the number of records each month in the Peter/Paul lakes dat
 
 ```{r Plot the number of records by month}
 #What kind of values are months?
+class(PeterPaul.chem.nutrients$month)
 
 #List unique values
+unique(PeterPaul.chem.nutrients$month)
 
 #Plot how many Lake observations occur each month
+ggplot(PeterPaul.chem.nutrients,aes(x=month)) +
+  geom_bar()
 
 #Convert month to a factor -- with 12 levels, labelled with month names
+factor(PeterPaul.chem.nutrients$month,
+       levels=1:12, #levels are set of unique values
+       labels=month.abb) #month abbreviation
 
 #Try again: Plot how many Lake observations occur each month
+ggplot(PeterPaul.chem.nutrients,aes(x=factor(month,levels=1:12,labels=month.abb))) +
+  geom_bar() +
+  scale_x_discrete(drop=FALSE) +
+  labs(
+    title="Plot",
+    x="Month") #xlab("Month")
+#SOLUTION on power point
 
 #Alter to include missing months
 
@@ -144,7 +161,7 @@ surface_temp_1999_plot
 
 #Apply a theme
 surface_temp_1999_plot + 
-  theme_gray()
+  theme_classic()
 
 #Apply a ggtheme
 surface_temp_1999_plot + 
@@ -228,6 +245,22 @@ Exercise: build your own scatterplots of PeterPaul.chem.nutrients
 # Plot surface temperatures by day of  year. 
 # Color your points by year, and facet by lake in two rows.
 # Change the ylab name
+PeterPaul.chem.nutrients %>% 
+  filter(depth==0) %>% 
+  ggplot(aes(
+      x=daynum,
+      y=temperature_C,
+      color=year4)
+    ) + 
+  geom_point(size=0.5,alpha=0.5) + #alpha is transparency
+    facet_wrap(vars(lakename)) +
+    labs(
+    title="Surface Temperatures by Day of Year",
+    x="Day of Year",
+    y="Surface Temperature (C)",
+    color="Year"
+    )
+
 
 
 #2. 
