@@ -1,6 +1,6 @@
 ---
 title: "Assignment 5: Data Visualization"
-author: "Student Name"
+author: "Tasneem Ahsanullah"
 date: "Spring 2023"
 output: pdf_document
 geometry: margin=2.54cm
@@ -32,8 +32,46 @@ This exercise accompanies the lessons in Environmental Data Analytics on Data Vi
 
 ```{r initialize project}
 #1 
+#importing tidyverse, lubridate, here & cowplot 
+library(tidyverse); library(lubridate); library(here); 
+library(cowplot)
+
+#Assigned a variable to the processed data folder location
+processed_data = "Data/Processed"
+
+#reading in the data
+NTL.chem.PeterPaul <- read.csv(
+  here(processed_data,
+  "NTL-LTER_Lake_Chemistry_Nutrients_PeterPaul_Processed.csv"),
+  stringsAsFactors = TRUE)
+
+NTL.chem.phys.PeterPaul <- read.csv(
+  here(processed_data,
+  "NTL-LTER_Lake_ChemistryPhysics_PeterPaul_Processed.csv"),
+  stringsAsFactors = TRUE)
+
+NTL.nutrients.PeterPaul <- read.csv(
+  here(processed_data,
+  "NTL-LTER_Lake_Nutrients_PeterPaul_Processed.csv"),
+  stringsAsFactors = TRUE)
+
+NEON.litter <- read.csv(
+  here(processed_data,
+  "NEON_NIWO_Litter_mass_trap_Processed.csv"),
+  stringsAsFactors = TRUE)
 
 #2 
+#checking if dates are in date format
+class(NTL.chem.PeterPaul$sampledate)
+class(NTL.chem.phys.PeterPaul$sampledate)
+class(NTL.nutrients.PeterPaul$sampledate)
+class(NEON.litter$collectDate)
+
+#changing format to date
+NTL.chem.PeterPaul$sampledate <- ymd(NTL.chem.PeterPaul$sampledate)
+NTL.chem.phys.PeterPaul$sampledate <- ymd(NTL.chem.phys.PeterPaul$sampledate)
+NTL.nutrients.PeterPaul$sampledate <- ymd(NTL.nutrients.PeterPaul$sampledate)
+NEON.litter$collectDate <- ymd(NEON.litter$collectDate)
 
 ```
 ## Define your theme
