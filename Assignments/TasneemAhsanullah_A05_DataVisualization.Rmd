@@ -69,8 +69,11 @@ class(NEON.litter$collectDate)
 
 #changing format to date
 NTL.chem.PeterPaul$sampledate <- ymd(NTL.chem.PeterPaul$sampledate)
+
 NTL.chem.phys.PeterPaul$sampledate <- ymd(NTL.chem.phys.PeterPaul$sampledate)
+
 NTL.nutrients.PeterPaul$sampledate <- ymd(NTL.nutrients.PeterPaul$sampledate)
+
 NEON.litter$collectDate <- ymd(NEON.litter$collectDate)
 
 ```
@@ -83,8 +86,29 @@ NEON.litter$collectDate <- ymd(NEON.litter$collectDate)
  * Legend
 
 ```{r build plot theme}
-#3
+#custom theme with adjusted plot background, title and legend background/title
+lake.theme <- theme_classic() + 
+  theme(
+    plot.background = element_rect(
+      color='black',
+      fill='seashell'
+    ),    
+    plot.title = element_text(
+      colour = 'black',
+      size = '14'
+    ),
+    legend.background = element_rect(
+      color='black',
+      fill ='white'
+    ),
+    legend.title = element_text(
+      color='black'
+    )
+    
+  )
 
+#setting the theme for all plots
+theme_set(lake.theme)
 ```
 
 ## Create graphs
@@ -94,7 +118,28 @@ For numbers 4-7, create ggplot graphs and adjust aesthetics to follow best pract
 
 ```{r plot total P vs PO4}
 #4 
+#phosphorous by phosphate plot differentiated by lake
+#with a line of best fit
+phos.plot <- NTL.chem.PeterPaul %>% 
+  ggplot(aes(
+      x=po4,
+      y=tp_ug,
+      color=lakename)
+    ) + 
+  geom_point(size=0.5,alpha=0.5) +
+    labs(
+    title="Phosphorous/Phosphate for Peter & Paul Lakes",
+    x="Phosphate (po4)",
+    y="Phosphorous (ug)",
+    color="Lakename"
+    ) +
+  geom_smooth(
+    method='lm',
+    se=FALSE,
+    color='Black') +
+  xlim(0,50)
 
+print(phos.plot)
 ```
 
 
@@ -104,12 +149,58 @@ Tip: R has a build in variable called `month.abb` that returns a list of months;
 
 ```{r Create boxplots}
 #5 
+#boxplot for temperature by month with lake name as the color aesthetic
+temp.plot <-
+  ggplot(NTL.chem.PeterPaul, 
+    aes(x=factor(month,levels=1:12,labels=month.abb), 
+    y = temperature_C)) +
+  geom_boxplot(aes(color = lakename)) +
+labs(
+  title="Temperature for Peter & Paul Lakes",
+    x="Month",
+    y="Temperature (C)",
+    color="Lakename"
+  )
+print(temp.plot)
+
+#boxplot for phosphorous by month with lake name as the color aesthetic
+tp.plot <-
+  ggplot(NTL.chem.PeterPaul, 
+  aes(x=factor(month,levels=1:12,labels=month.abb),
+  y = tp_ug)) +
+geom_boxplot(aes(color = lakename)) +
+labs(
+  title="Phosphorous for Peter & Paul Lakes",
+    x="Month",
+    y="Phosphorous (ug)",
+    color="Lakename"
+  )
+print(tp.plot)
+
+#boxplot for nitrogen by month with lake name as the color aesthetic
+tn.plot <-
+  ggplot(NTL.chem.PeterPaul, 
+  aes(x=factor(month,levels=1:12,labels=month.abb),
+  y = tn_ug)) +
+geom_boxplot(aes(color = lakename)) +
+labs(
+  title="Nitrogen for Peter & Paul Lakes",
+    x="Month",
+    y="Nitrogen (ug)",
+    color="Lakename"
+  )
+print(tn.plot)
+
+plot_grid(temp.plot, tp.plot, tn.plot, ncol= 1, 
+          align='v',axis='b')
+
+
 
 ```
 
 Question: What do you observe about the variables of interest over seasons and between lakes? 
 
-> Answer: 
+> Answer: The variables of interest increase in the spring, peak in summer and then decrease in winter. 
 
 6. [Niwot Ridge] Plot a subset of the litter dataset by displaying only the "Needles" functional group. Plot the dry mass of needle litter by date and separate by NLCD class with a color aesthetic. (no need to adjust the name of each land use)
 
@@ -117,12 +208,43 @@ Question: What do you observe about the variables of interest over seasons and b
 
 ```{r Plot litter}
 #6
+#plot of the Needle dry mass by date
+litter.plot <- NEON.litter %>% 
+  filter(functionalGroup=='Needles') %>% 
+  ggplot(aes(
+      x=collectDate,
+      y=dryMass,
+      color=nlcdClass)
+    ) + 
+  geom_point(size=0.5,alpha=0.5) +
+    labs(
+    title="Dry Mass of Needle Litter",
+    x="Date",
+    y="Dry Mass",
+    color="NLCD Class"
+    )
 
+print(litter.plot)
 
 #7
-
+#plot of the Needle dry mass by date for each NLCD class
+litter.facet <- NEON.litter %>% 
+  filter(functionalGroup=='Needles') %>%
+  ggplot(aes(
+      x=collectDate,
+      y=dryMass,
+      )
+    ) + 
+  geom_point(size=0.5,alpha=0.5) + 
+    facet_wrap(vars(nlcdClass)) +
+    labs(
+    title="Dry Mass of Needle Litter by NLCD",
+    x="Date",
+    y="Dry Mass"
+    )
+print(litter.facet)
 
 ```
 Question: Which of these plots (6 vs. 7) do you think is more effective, and why? 
 
-> Answer:
+> Answer: Plot 6 is more effective because it is easier to compare the different NLCD to each other since they are on the same graph and just different colors. 
