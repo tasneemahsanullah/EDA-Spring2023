@@ -1,6 +1,6 @@
 ---
 title: 'A07 - Crafting Reports'
-author: "Student_name" 
+author: "Tasneem Ahsanullah" 
 date: "Spring 2023"
 output: pdf_document
 ---
