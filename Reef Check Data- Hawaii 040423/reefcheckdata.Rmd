@@ -24,8 +24,7 @@ library(sf)
 library(leaflet)
 library(mapview); mapviewOptions(fgb = FALSE)
 library(raster)
-library(dplyr)
-library(here)
+library(conflicted)
 
 ```
 
@@ -34,7 +33,7 @@ library(here)
 You can also embed plots, for example:
 
 ```{r import data}
-reef_data <- read.csv('./ReefCheckData/Belt.csv', stringsAsFactors = TRUE)
+reef_data <- read.csv('./Reef Check Data- Hawaii 040423/Belt.csv', stringsAsFactors = TRUE)
 ```
 
 ```{r select}
