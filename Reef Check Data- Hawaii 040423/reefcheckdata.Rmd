@@ -23,8 +23,8 @@ library(lubridate)
 library(sf)
 library(leaflet)
 library(mapview); mapviewOptions(fgb = FALSE)
-library(raster)
-library(conflicted)
+library(dplyr)
+
 
 ```
 
@@ -53,13 +53,13 @@ reef_data_filter <- reef_data_coordinates %>%
 
 ```{r spatial}
 reef_data_spatial <-st_as_sf(reef_data_filter, 
-                             coords = c('long','lat'), crs=32601) 
+                             coords = c('long','lat'), crs=4326) 
 
 #WGS 84 / UTM zone 1N
 ```
 
 ```{r}
-#reef_data_name <- st_write(reef_data_spatial, "Reefdata.shp") 
+st_write(reef_data_spatial, "Reefdata.shp") 
 
 #append=FALSE
 
